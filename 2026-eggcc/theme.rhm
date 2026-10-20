@@ -7,7 +7,7 @@
 // the scheme is one edit and nothing downstream has an opinion about it.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "write.rhm" open
@@ -85,9 +85,29 @@ def slide_height = 1080.0
 // so every unnamed sigma in this file was drawn by whatever racket/draw reached
 // for instead -- Noto Sans on this machine, something else on a Mac. Naming the
 // face is the difference between choosing one and being handed one.
-def prose_font = "Helvetica Neue"
+// `fonts` is a folder beside this file. Anything in it is loaded before a
+// single glyph is measured, so a deck can carry the faces it is set in rather
+// than hope for them. (It works wherever pango draws through fontconfig, which
+// is the Mac and Linux; Windows only sees fonts that are installed, so there
+// the files in `fonts` are what to install.)
+register_fonts("fonts")
+//
+// A face with a stand-in is asked for by whichever name this machine has:
+// Helvetica Neue is Apple's, and where it is not installed the deck is set in
+// Nimbus Sans, the Helvetica clone with Helvetica's metrics. fontconfig aliases
+// one name to the other on Linux; `resolved_font` is the same decision made
+// here, so that it holds where there is no fontconfig to make it.
+def prose_font = resolved_font("Helvetica Neue", "Nimbus Sans")
 def code_font = "PT Mono"
-def math_font = "Times New Roman"
+def math_font = resolved_font("Times New Roman", "Tinos")
+
+// Every size in this deck is a number of pixels on the 1920 x 1080 slide. On the
+// Mac, where the deck was written, racket/draw's points are pixels; on Windows
+// and Linux it scales a point by 96/72, and every face came out a third too
+// large -- titles running off the page, code overflowing its boxes. So every
+// `draw.Font` here says `~in_pixels: #true`, and the default face that
+// `current_font()` hands to anything that names none is made pixel-sized too.
+text.current_font(text.current_font() with (in_pixels = #true))
 
 // The e-graph node labels get their own name because which face they want is a
 // judgement rather than a fact. They follow the notation: they sit beside the
@@ -115,10 +135,7 @@ current_default_font(code_font)
 // name has to actually resolve to it, which is checked by measuring -- a font
 // reports the face that was asked for, not the one that was drawn.
 //
-// `fonts` is a folder beside this file. Anything in it is loaded before a
-// single glyph is measured, so a deck can carry the faces it is set in rather
-// than hope for them: `raco glide fonts talk.rhm` puts them there.
-register_fonts("fonts")
+// `fonts` is a folder beside this file: see `register_fonts` above the faces.
 //
 // One entry per face the deck is set in. Two entries used to be here that were not
 // faces: Medium is a weight of the sans that Keynote wrote out as a family of its
@@ -236,7 +253,7 @@ fun prose_text(s :: String, ~size: size :: Real = 40.0,
                ~bold: bold :: Boolean = #false, ~italic: italic :: Boolean = #false,
                ~color: color = "black",
                ~arrive: arrive = #'write) :: pc.Pict:
-  def font = draw.Font(~name: prose_font, ~size: size,
+  def font = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: size,
                        ~weight: if bold | #'bold | #'normal,
                        ~style: if italic | #'italic | #'normal)
   match arrive
@@ -246,14 +263,14 @@ fun prose_text(s :: String, ~size: size :: Real = 40.0,
 fun code_text(s :: String, ~size: size :: Real = code_size,
               ~italic: italic :: Boolean = #false, ~color: color = "black",
               ~arrive: arrive = #'write) :: pc.Pict:
-  def font = draw.Font(~name: code_font, ~size: size,
+  def font = draw.Font(~in_pixels: #true, ~name: code_font, ~size: size,
                        ~style: if italic | #'italic | #'normal)
   match arrive
   | #'pop: popped(pc.text(s, ~font: font).colorize(as_color(color)))
   | #'fade: faded(pc.text(s, ~font: font).colorize(as_color(color)))
   | ~else: written_text(s, ~color: color, ~font: font)
 fun math_text(s :: String, ~size: size :: Real = code_size, ~color: color = "black") :: pc.Pict:
-  written_text(s, ~color: color, ~font: draw.Font(~name: math_font, ~size: size))
+  written_text(s, ~color: color, ~font: draw.Font(~in_pixels: #true, ~name: math_font, ~size: size))
 
 // Where Keynote's text boxes put their ink: 4 across and 3 down from the corner of
 // the box, measured against the deck's 48pt labels. A label that used to be a text
@@ -264,8 +281,8 @@ def box_dy = 3.0
 // The size the code box is set at, which the rule under it is scaled to match.
 def code_size = 40.0
 
-def code_face = draw.Font(~name: code_font, ~size: code_size)
-def math_face = draw.Font(~name: math_font, ~size: code_size)
+def code_face = draw.Font(~in_pixels: #true, ~name: code_font, ~size: code_size)
+def math_face = draw.Font(~in_pixels: #true, ~name: math_font, ~size: code_size)
 fun code(s :: String) :: pc.Pict: code_text(s)
 fun code_sub(s :: String) :: pc.Pict: code(s).scale(0.6)
 // the Greek is set in the notation face, as everywhere else in the deck: PT Mono
@@ -339,7 +356,7 @@ fun small_prose(s :: String) :: pc.Pict: prose_text(s, ~size: 32.0, ~bold: #true
 // A sentence for a bubble, in the deck's Helvetica Neue: each item is a string
 // and how it is set, `#'plain`, `#'bold`, `#'bold_italic` -- for the one word in a
 // bubble that names a thing rather than says it -- or `#'sub`.
-def prose_face = draw.Font(~name: prose_font, ~size: 40.0)
+def prose_face = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: 40.0)
 fun prose(items :: List) :: pc.Pict:
   pc.beside(~vert: #'bottom,
             & for List ([s, style] in items):
@@ -470,7 +487,7 @@ fun crop_pict(p :: pc.Pict, ~at: at :~ List, ~size: size :~ List) :: pc.Pict:
 // its ink -- measured, on the box's 85pt bold: 4 across and 15 up from the corner
 // -- give or take the letter-spacing Keynote took out. `~tag` is kept for Glide,
 // which names a slide's title by it; `~nudge` is a correction to where it goes.
-def title_face = draw.Font(~name: prose_font, ~size: 85.0, ~weight: #'bold)
+def title_face = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: 85.0, ~weight: #'bold)
 def title_x = 95.0 + 4.0
 def title_y = 85.0 - 15.0
 // The title on its own, for a slide that changes its title while everything under

@@ -11,7 +11,7 @@
 // The numbers come from `plotdata.rhm`, which reads eggcc's own `profile.json`.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "theme.rhm" open
   "plotdata.rhm" open
   pict as pc
@@ -40,8 +40,8 @@ def ours_color = draw.Color(0, 176, 80)          // eggcc
 def llvm_color = draw.Color(20, 20, 20)          // LLVM-O0
 def gone_color = draw.Color(235, 45, 45)         // the solver gave up
 def link_color = draw.Color(150, 150, 150)
-def axis_face = draw.Font(~name: prose_font, ~size: 34.0)
-def name_face = draw.Font(~name: prose_font, ~size: 38.0, ~weight: #'bold)
+def axis_face = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: 34.0)
+def name_face = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: 38.0, ~weight: #'bold)
 fun axis_text(s :: String) :: pc.Pict: pc.text(s, ~font: axis_face)
 fun name_text(s :: String, c) :: pc.Pict: pc.text(s, ~font: name_face).colorize(c)
 

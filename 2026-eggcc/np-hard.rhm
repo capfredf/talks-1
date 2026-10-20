@@ -7,7 +7,7 @@
 // nothing else rewrites this file.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
 
 export:
   slide_width
@@ -7786,7 +7786,7 @@ def slide_11 = slide_canvas(
 def all_slides = [slide_1, slide_2, slide_3, slide_4, slide_5, slide_6, slide_7, slide_8, slide_9, slide_10, slide_11]
 
 module main:
-  import: lib("glide-pptx/show.rhm") open
+  import: "glide/show.rhm" open
   show_slides(all_slides, ~width: slide_width, ~height: slide_height)
 
 // The backup PDF, without opening a window:

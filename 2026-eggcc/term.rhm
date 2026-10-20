@@ -2,7 +2,7 @@
 // The term the talk keeps coming back to, `(a + 1) - 1`, and where it sits.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "theme.rhm" open
   pict as pc
   draw
@@ -40,7 +40,7 @@ def flow_title = "E-Graphs Explore a Big Space"
 // column they make reads from the back of the room. The kerning was measured at 45
 // and scales with it.
 def term_size = 58.0
-def term_font = draw.Font(~name: prose_font, ~size: term_size)
+def term_font = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: term_size)
 // the minus is the minus sign the rules and the node labels are set with, not a
 // hyphen: a glyph and the node it becomes have to say the same word for the press
 // between them to cross-fade rather than unwrite one and write the other

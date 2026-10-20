@@ -3,7 +3,7 @@
 // that says why the rest of the section is needed at all.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open

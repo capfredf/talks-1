@@ -25,7 +25,7 @@
 // this one emits up to that guard.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open

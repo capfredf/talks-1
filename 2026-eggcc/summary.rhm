@@ -23,7 +23,7 @@
 // with what happened in between below.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "theme.rhm" open
   "backdrop.rhm" open
@@ -144,7 +144,7 @@ def lean_asked = asking(logo_file("lean.png"))
 def compcert_mark:
   if rkt.#{file-exists?}(media("compcert.png"))
   | logo_file("compcert.png")
-  | pc.text("COMPCERT", ~font: draw.Font(~name: "URW Gothic", ~size: 72.0))
+  | pc.text("COMPCERT", ~font: draw.Font(~in_pixels: #true, ~name: "URW Gothic", ~size: 72.0))
       .colorize(draw.Color(0x25, 0x31, 0x83))
 // the mark on its own does not say whose it is, so its name goes under it
 def compcert_named:

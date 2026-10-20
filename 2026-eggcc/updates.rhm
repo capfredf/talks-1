@@ -3,7 +3,7 @@
 // into an e-graph, a rule over them, and the extraction that gets it wrong.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open

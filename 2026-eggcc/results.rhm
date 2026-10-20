@@ -8,7 +8,7 @@
 // arrives in.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "theme.rhm" open
   "plots.rhm" open
@@ -34,7 +34,7 @@ fun slide_cdf():
   // measured and on what
   def caption:
     pc.text("Eggcc Extraction Performance on Polybench and Bril Benchmark Suites",
-            ~font: draw.Font(~name: prose_font, ~size: 34.0, ~weight: #'bold))
+            ~font: draw.Font(~in_pixels: #true, ~name: prose_font, ~size: 34.0, ~weight: #'bold))
   def page:
     put(titled("Extraction is Fast in Practice", ~tag: "Extraction CDF title", ~nudge: [0.0, 0.0]),
         caption, cdf_x + (cdf_w - caption.width) / 2, cdf_y - 66.0)
@@ -46,7 +46,7 @@ fun slide_cdf():
   // counting up beside its edge, and when it gets there the words for that share
   // are simply there: they are what the band came to, not a second thing to watch. The share and the words ride low on the edge, under the
   // curve, which is up near the top by then.
-  def share_face = draw.Font(~name: prose_font, ~size: 48.0, ~weight: #'bold)
+  def share_face = draw.Font(~in_pixels: #true, ~name: prose_font, ~size: 48.0, ~weight: #'bold)
   fun share_text(frac :: Real) :: pc.Pict:
     def pct = math.exact(math.round(frac * 100.0))
     pc.text(to_string(pct) +& "%", ~font: share_face).colorize(cdf_dp_color)

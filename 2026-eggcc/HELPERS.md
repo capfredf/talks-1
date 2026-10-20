@@ -1,7 +1,7 @@
 # Building a talk with these helpers
 
 The deck is a Rhombus program: every slide is a `pict` that animates, shown by
-glide-pptx's `show_slides`. This is the vocabulary the slides are written in, and
+`show_slides` in `glide/show.rhm`. This is the vocabulary the slides are written in, and
 the few facts about the show that the vocabulary rests on. Files: `theme.rhm` (the
 page, faces, prose, sections), `slidehelpers.rhm` (bubbles, arrows, outline),
 `write.rhm` + `ink.rhm` (how things arrive), `magicmove.rhm` (presses over keyed
@@ -25,7 +25,7 @@ Things the show (glide `staged.rhm`) does for you, so do not code around them:
   opens with, glide drops the hold, cuts to the next slide, and the closing
   animation is the press that moves on. The dividers and the workflow → big-space
   handoff work this way; nothing is declared. "The same picture" is a pixel
-  compare (`looks_same` in glide's `staged.rhm`, colour bytes of every eighth
+  compare (`looks_same` in `glide/staged.rhm`, colour bytes of every eighth
   pixel, a budget of 24), so the next slide's first frame must draw the shared
   ink *once* -- a copy laid over it, or a mark, is a difference and costs the cut.
 - **Pans** otherwise: `set_transitions(#'down)` in `talk.rhm`; a slide asks for its
@@ -52,7 +52,7 @@ fun slide_thing():
   Several things in one press, one after another and overlapping -- a grid of logos
   -- is one layer with all of them on it: `write` staggers a layer's parts in the
   order they were put down (slide_2 in `opening.rhm`).
-- Anything from glide's runtime (`slide_canvas`, `image_pict`, `textbox`) is a Racket
+- Anything from the runtime in `glide/` (`slide_canvas`, `image_pict`, `textbox`) is a Racket
   pict; `as_pict` crosses it over. `pc.animate(~extent: secs, fun (t): ...)` is a
   hand-rolled press; keep `~bend: fun (x): x` when you time things inside it.
 - A camera move is such a press: draw the picture scaled by `s` about a point, a
@@ -191,11 +191,11 @@ under a later version of them. Once the talk is given, the general parts --
 `write.rhm`, `ink.rhm`, `magicmove.rhm`, the bubbles, arrows and outline of
 `slidehelpers.rhm` -- are to be lifted into a Rhombus package for the next talk;
 `theme.rhm`, `egraph.rhm` and the slide files are this deck's.
-- The deck is written against one commit of rhombus-glide, named in the Makefile as
-  `GLIDE_COMMIT`. `glide-pptx` is a *link* to the checkout at `GLIDE_SRC`, so the
-  checkout is what runs: `make check-deps` says whether it is at that commit, `make`
-  and `make show` warn if it is not, and `make deps` sets a fresh machine up. Bump the
-  pin when the deck starts to depend on something newer in glide.
+- The drawing runtime the deck is written against -- `at`, `over`, `textbox`,
+  `show_slides`, the staging in `staged.rhm` -- is the talk's own copy too, in
+  `glide/`: what was the `glide-pptx` package, cut down to the modules the deck
+  imports (no PowerPoint writer, no editor). Nothing outside this folder is
+  needed beyond a Rhombus snapshot and `slideshow-exe`.
 
 ## 10. Checking a change
 

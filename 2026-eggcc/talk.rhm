@@ -27,7 +27,7 @@
 // keeping the old Keynote labels readable in the editor.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "theme.rhm" open
   "opening.rhm" open
   "bigspace.rhm" open
@@ -125,7 +125,7 @@ module main:
   // file used to do for itself with a `held` wrapper around every slide in
   // `all_slides`. A slide's final epoch plays as the transition *off* it, so
   // without the hold whatever that epoch adds is never seen at rest.
-  import: lib("glide-pptx/show.rhm") open
+  import: "glide/show.rhm" open
   // The logical number in the corner, the one `--skip` counts by. Keynote's own
   // "Slide Number" fields came through empty, so this is the only number drawn.
   set_slide_numbers(#true)

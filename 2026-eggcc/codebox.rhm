@@ -4,7 +4,7 @@
 // band that says which line a press is talking about.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "theme.rhm" open
   "write.rhm".popped
   pict as pc

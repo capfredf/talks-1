@@ -20,7 +20,7 @@
 // O0's ratio really is O3's speedup over it, and false of eggcc's.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   lib("json/main.rkt") as json
   lib("racket/base.rkt") as rkt
 

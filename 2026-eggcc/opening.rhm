@@ -3,7 +3,7 @@
 // and that same grid again with the ones that need effects marked.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "theme.rhm" open
   "backdrop.rhm" open

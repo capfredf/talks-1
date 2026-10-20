@@ -2,7 +2,7 @@
 // slide_dp: the statewalk DP algorithm run on the `update` example.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open

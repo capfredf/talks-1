@@ -8,7 +8,7 @@
 // out of this.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "theme.rhm" open
   "write.rhm" open
@@ -70,7 +70,7 @@ fun greek_letter(s :: String) :: Boolean:
   s.length() > 0 && (Char.to_int(s[0]) >= 0x370 && Char.to_int(s[0]) <= 0x3FF)
 fun node_label(s :: String, ~sub: sub :: maybe(String) = #false,
                ~size: size :: Real = 40.0) :: pc.Pict:
-  def face = draw.Font(~name: (if greek_letter(s) | math_font | node_font), ~size: size)
+  def face = draw.Font(~in_pixels: #true, ~name: (if greek_letter(s) | math_font | node_font), ~size: size)
   def main = written_text(s, ~font: face)
   if sub
   | def below = written_text(sub, ~font: face with (size = 0.58 * size))

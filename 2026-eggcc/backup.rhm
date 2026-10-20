@@ -3,7 +3,7 @@
 // to draw, what it costs in compile time, and how this deck was made.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "theme.rhm" open
   "plots.rhm" open

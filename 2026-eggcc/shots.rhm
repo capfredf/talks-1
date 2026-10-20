@@ -7,7 +7,7 @@
 // here, so a section that changes brings its own reminder with it.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "theme.rhm" open
   "opening.rhm" open
   "updates.rhm" open

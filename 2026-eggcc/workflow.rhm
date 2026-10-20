@@ -3,7 +3,7 @@
 // it: once for a program without effects, and once for one with them.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open

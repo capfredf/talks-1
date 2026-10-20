@@ -3,7 +3,7 @@
 // that says why the space of rewrites is big and why an e-graph can hold it.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "slidehelpers.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open

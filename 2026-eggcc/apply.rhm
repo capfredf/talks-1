@@ -6,7 +6,7 @@
 // fly out and become the regions round the classes they make.
 
 import:
-  lib("glide-pptx/runtime.rhm") open
+  "glide/runtime.rhm" open
   "magicmove.rhm" open
   "theme.rhm" open
   "codebox.rhm" open
