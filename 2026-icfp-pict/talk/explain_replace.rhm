@@ -1,7 +1,6 @@
 #lang rhombus/and_meta
 import:
   slideshow open
-  "rebuildable_sugar.rhm" open  // as_rebuildable, until Rhombus ships it
   pict/rhombus open
   "../config.rhm"
   "eval_tree_ext.rhm" open
